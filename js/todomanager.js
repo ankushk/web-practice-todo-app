@@ -113,7 +113,7 @@ $(document).ready(function(){
     bindEvent();
   }
 
-  $('#create-task').click(function(event) {
+  $('#create-task-form').submit(function(event) {
     console.log("Task crete function");
     if ($('#create-task-area').val() === '') {
       alert("Error: Empty task can't be created");
