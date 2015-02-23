@@ -1,18 +1,8 @@
-$(document).ready(function(){
+$(document).ready(function() {
   console.log("In TODO app");
 
   // task-list: {"/id": {"desc": description, "completed": boolean}}
   // task-order: [];
-
-  var testObject = { 'one': 1, 'two': 2, 'three': 3 };
-
-  // Put the object into storage
-  localStorage.setItem('testObject', JSON.stringify(testObject));
-
-  // Retrieve the object from storage
-  var retrievedObject = localStorage.getItem('testObject');
-
-  console.log('retrievedObject: ', JSON.parse(retrievedObject));
 
   $('.sortable').sortable().bind('sortupdate', function(e, ui) {
     /*
@@ -26,17 +16,15 @@ $(document).ready(function(){
     ui.endparent contains the element that the dragged item was added to
 
     */
-
     console.log("Sort Update");
-    task_order = JSON.parse(localStorage['task-order']);
-    console.log("Old order:" + task_order);
-    task_order.splice(ui.item.index(), 0, task_order.splice(ui.oldindex, 1)[0]);
-    console.log("New order:" + task_order);
-    localStorage['task-order'] = JSON.stringify(task_order);
+    var taskOrder = JSON.parse(localStorage['task-order']);
+    taskOrder.splice(ui.item.index(), 0, taskOrder.splice(ui.oldindex, 1)[0]);
+    console.log("New order:" + taskOrder);
+    localStorage['task-order'] = JSON.stringify(taskOrder);
   });
 
-  function escapeHTML(unsafe_str) {
-    return unsafe_str
+  function escapeHTML(unsafeStr) {
+    return unsafeStr
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
@@ -59,34 +47,34 @@ $(document).ready(function(){
 
   function bindEvent() {
     $("a").click(function(e) {
-      task_id = parseInt($(this).parent().attr('task-id'));
-      console.log(task_id);
+      taskId = parseInt($(this).parent().attr('task-id'));
+      console.log(taskId);
 
-      task_order = JSON.parse(localStorage['task-order']);
-      task_list = JSON.parse(localStorage['task-list']);
+      var taskOrder = JSON.parse(localStorage['task-order']);
+      taskList = JSON.parse(localStorage['task-list']);
 
-      var index = task_order.indexOf(task_id);
+      var index = taskOrder.indexOf(taskId);
       if (index > -1) {
-        task_order.splice(index, 1);
+        taskOrder.splice(index, 1);
       }
-      delete task_list[task_id];
-      localStorage['task-list'] = JSON.stringify(task_list);
-      localStorage['task-order'] = JSON.stringify(task_order);
+      delete taskList[taskId];
+      localStorage['task-list'] = JSON.stringify(taskList);
+      localStorage['task-order'] = JSON.stringify(taskOrder);
       loadTasks();
       e.preventDefault();
     });
 
     $('input[type="checkbox"]').click(function(e) {
-      task_id = parseInt($(this).parent().attr('task-id'));      
-      console.log(task_id);
+      taskId = parseInt($(this).parent().attr('task-id'));
+      console.log(taskId);
 
-      task_list = JSON.parse(localStorage['task-list']);
-      if (task_list[task_id]['completed']) {
-        task_list[task_id]['completed'] = false;
+      taskList = JSON.parse(localStorage['task-list']);
+      if (taskList[taskId]['completed']) {
+        taskList[taskId]['completed'] = false;
       } else {
-        task_list[task_id]['completed'] = true;
+        taskList[taskId]['completed'] = true;
       }
-      localStorage['task-list'] = JSON.stringify(task_list);
+      localStorage['task-list'] = JSON.stringify(taskList);
       loadTasks();
       e.preventDefault();
     });
@@ -94,19 +82,18 @@ $(document).ready(function(){
   }
 
   function loadTasks() {
-    task_order = JSON.parse(localStorage['task-order']);
-    task_list = JSON.parse(localStorage['task-list']);
+    var taskOrder = JSON.parse(localStorage['task-order']);
+    var taskList = JSON.parse(localStorage['task-list']);
 
-    var i;
     $('#task-ul').empty();
-    for (i = 0; i < task_order.length; ++i) {
-      task_id = task_order[i];
-      task = task_list[task_id];
+    for (var i = 0; i < taskOrder.length; ++i) {
+      taskId = taskOrder[i];
+      task = taskList[taskId];
 
-      if(task['completed']) {
-        $('#task-ul').append("<li class='list-group-item' task-id='" + task_id + "'>" + "<input type='checkbox' value='' class='cbox' checked><s>" + task.desc  + "</s><a href=#><span class='glyphicon glyphicon-remove pull-right' href='#'></a></span></li>");
+      if (task['completed']) {
+        $('#task-ul').append("<li class='list-group-item' task-id='" + taskId + "'>" + "<input type='checkbox' value='' class='cbox' checked><s>" + task.desc  + "</s><a href=#><span class='glyphicon glyphicon-remove pull-right' href='#'></a></span></li>");
       } else {
-        $('#task-ul').append("<li class='list-group-item' task-id='" + task_id + "'>" + "<input type='checkbox' value='' class='cbox'>" + task.desc  + "<a href=#><span class='glyphicon glyphicon-remove pull-right' href='#'></a></span></li>");
+        $('#task-ul').append("<li class='list-group-item' task-id='" + taskId + "'>" + "<input type='checkbox' value='' class='cbox'>" + task.desc  + "<a href=#><span class='glyphicon glyphicon-remove pull-right' href='#'></a></span></li>");
       }
     }
     $('.sortable').sortable();
@@ -120,45 +107,40 @@ $(document).ready(function(){
       return;
     }
 
-    if(typeof localStorage['task-list'] === "undefined" || localStorage['task-list'] == null) {
-      console.log('Task list is null');
+    if (typeof localStorage['task-list'] === "undefined" || localStorage['task-list'] === null) {
       localStorage['id-counter'] = JSON.stringify({'id' : 0});
-      // localStorage['task-list'] = JSON.stringify({});
-      // var task-order = [];
 
-      var task_list = {};
-      var task_order = [];
-      
-      task = {};
+      var taskList = {};
+      var taskOrder = [];
+
+      var task = {};
       task['desc'] = escapeHTML($('#create-task-area').val());
       task['completed'] = false;
 
-      id_obj = JSON.parse(localStorage['id-counter']);
-      current_id = id_obj['id'];
+      counterObj = JSON.parse(localStorage['id-counter']);
+      currentId = counterObj['id'];
 
-      localStorage['id-counter'] = JSON.stringify({'id' : current_id + 1});
-      task_list[current_id] = task;
-      localStorage['task-list'] = JSON.stringify(task_list);
-      task_order.push(current_id);     
-      localStorage['task-order'] = JSON.stringify(task_order);
+      localStorage['id-counter'] = JSON.stringify({'id' : currentId + 1});
+      taskList[currentId] = task;
+      localStorage['task-list'] = JSON.stringify(taskList);
+      taskOrder.push(currentId);
+      localStorage['task-order'] = JSON.stringify(taskOrder);
     } else {
-      console.log("Else loop");
-      task = {};
+      var task = {};
       task['desc'] = escapeHTML($('#create-task-area').val());
       task['completed'] = false;
 
-      id_obj = JSON.parse(localStorage['id-counter']);
-      current_id = id_obj['id'];
-      localStorage['id-counter'] = JSON.stringify({'id' : current_id + 1});
+      counterObj = JSON.parse(localStorage['id-counter']);
+      currentId = counterObj['id'];
+      localStorage['id-counter'] = JSON.stringify({'id' : currentId + 1});
 
-      task_list = JSON.parse(localStorage['task-list']);
-      task_list[current_id] = task;
-      localStorage['task-list'] = JSON.stringify(task_list);
+      var taskList = JSON.parse(localStorage['task-list']);
+      taskList[currentId] = task;
+      localStorage['task-list'] = JSON.stringify(taskList);
 
-      task_order = JSON.parse(localStorage['task-order']);
-      task_order.unshift(current_id);     
-      localStorage['task-order'] = JSON.stringify(task_order);
-
+      var taskOrder = JSON.parse(localStorage['task-order']);
+      taskOrder.unshift(currentId);
+      localStorage['task-order'] = JSON.stringify(taskOrder);
     }
     // logDebug();
     loadTasks();
