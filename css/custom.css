@@ -8,9 +8,10 @@
   margin: 30px 0;
 }
 
-#create-task-form {
+#form-container {
   padding-left: 50px;
   padding-right: 50px;
+  padding-bottom: 60px;
 }
 
 #create-task-area {
@@ -24,7 +25,7 @@
   color: #1C94C4;
   margin: 10px;
   padding: 5px;
-  height: 30px;
+  height: 32px;
 }
 
 input[type="checkbox"] {

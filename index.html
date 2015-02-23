@@ -18,14 +18,14 @@
 
         <h4 class="text-center">Create New task</h4>
 
-        <form class="form-group center-block" id="create-task-form">
-          <input type="text" class="form-control" rows="2" id="create-task-area" maxlength="160" />
+        <div id="form-container">
+          <form class="form-group center-block" id="create-task-form">
+            <input type="text" class="form-control" id="create-task-area" maxlength="160" />
+          </form>
           <button type="button" class="btn btn-primary pull-right" id="create-task">Create</button>
-        </form>
+        </div>
 
-        <br>
-        <br>
-
+        <div style="clear:both;"></div>
 
         <div id="task-list">
           <ul class="sortable list list-group" id="task-ul">
