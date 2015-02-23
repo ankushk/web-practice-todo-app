@@ -27,7 +27,6 @@
   height: 30px;
 }
 
-.cbox {
-  margin-left: 10px;
-  margin-right: 20px;
+input[type="checkbox"] {
+  margin-right: 10px;
 }
