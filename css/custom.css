@@ -1,0 +1,33 @@
+/* Custom container */
+.container-narrow {
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+#create-task-form {
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+#create-task-area {
+  width: 100%;
+}
+
+.connected li, .sortable li, .exclude li, .handles li {
+  list-style: none;
+  border: 1px solid #CCC;
+  background: #F6F6F6;
+  color: #1C94C4;
+  margin: 10px;
+  padding: 5px;
+  height: 30px;
+}
+
+.cbox {
+  margin-left: 10px;
+  margin-right: 20px;
+}
