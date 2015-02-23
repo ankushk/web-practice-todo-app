@@ -1,5 +1,4 @@
 $(document).ready(function() {
-  console.log("In TODO app");
 
   // task-list: {"/id": {"desc": description, "completed": boolean}}
   // task-order: [];
@@ -101,7 +100,6 @@ $(document).ready(function() {
   }
 
   $('#create-task-form').submit(function(event) {
-    console.log("Task crete function");
     if ($('#create-task-area').val() === '') {
       alert("Error: Empty task can't be created");
       return;
